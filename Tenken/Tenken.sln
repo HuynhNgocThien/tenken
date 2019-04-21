@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tenken", "Tenken\Tenken.csproj", "{1345535D-7454-4393-BD22-444BF75DE443}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1345535D-7454-4393-BD22-444BF75DE443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1345535D-7454-4393-BD22-444BF75DE443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1345535D-7454-4393-BD22-444BF75DE443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1345535D-7454-4393-BD22-444BF75DE443}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {769755B1-AD34-4EE2-981D-001B0EE8AC7D}
+	EndGlobalSection
+EndGlobal

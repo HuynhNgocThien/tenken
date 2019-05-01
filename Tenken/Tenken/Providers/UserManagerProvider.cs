@@ -115,5 +115,34 @@ namespace TenkenWeb.Providers
             connect.Close();
             return result;
         }
+
+        public static IList<User> getAllUser(SqlConnection connect)
+        {
+            List<User> result = new List<User>();
+            try
+            {
+                User item = new User();
+                string sql = "[tk].[get_all_user]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connect.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    item.ID = int.Parse(reader["UserID"].ToString());
+                    item.UserName = reader["UserName"].ToString();
+                    item.Email = reader["Email"].ToString();
+                    item.CartID = int.Parse(reader["CartID"].ToString());
+                    result.Add(item);
+                }
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return null;
+            }
+            connect.Close();
+            return result;
+        }
     }
 }

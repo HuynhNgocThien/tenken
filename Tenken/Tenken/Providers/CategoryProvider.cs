@@ -12,7 +12,7 @@ namespace TenkenWeb.Providers
 {
     public class CategoryProvider
     {
-        public static IList<Category> getAllCategory(SqlConnection connect)
+        public static IList<Category> getCategory(SqlConnection connect, string categoryName, int categoryID)
         {
             List<Category> result = new List<Category>();
             try
@@ -21,6 +21,8 @@ namespace TenkenWeb.Providers
                 string sql = "[tk].[get_category]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@categoryName", categoryName);
+                cmd.Parameters.AddWithValue("@categoryID", categoryID);
                 connect.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())

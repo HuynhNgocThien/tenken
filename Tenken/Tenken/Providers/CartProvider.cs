@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Tenken.Models;
 using TenkenWeb.Common;
 using TenkenWeb.Models;
 
@@ -11,53 +12,61 @@ namespace TenkenWeb.Providers
 {
     public class CartProvider
     {
-        public static IList<Cart> getCart(SqlConnection connect, int userID)
+        public static Cart getCart(SqlConnection connect, int cartID)
         {
-            IList<Cart> result = new List<Cart>();
+            List<CartItem> cartItem = new List<CartItem>();
             try
             {
-                Cart cart = new Cart();
-                string sql = "[tk].[cart_get]";
+                CartItem cart = new CartItem();
+                string sql = "[tk].[get_cart_item]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.Parameters.AddWithValue("@cartID", cartID);
                 connect.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    cart.cartID = int.Parse(reader["CartID"].ToString());
-                    cart.BookID = int.Parse(reader["BookID"].ToString());
-                    cart.BookName = reader["BookName"].ToString();
-                    cart.quantity = int.Parse(reader["Quantity"].ToString());
-                    cart.totalPrice = int.Parse(reader["Price"].ToString());
-                    result.Add(cart);
+                    cart.ProductInfoID = int.Parse(reader["ProductInfoID"].ToString());
+                    cart.ProductID = int.Parse(reader["ProductID"].ToString());
+                    cart.ProductName = reader["ProductName"].ToString();
+                    cart.Price = double.Parse(reader["Price"].ToString());
+                    cart.Quantity = int.Parse(reader["Quantity"].ToString());
+                    cart.PricePerProduct = double.Parse(reader["PricePerProduct"].ToString());
+                    cartItem.Add(cart);
                 }
             }
             catch (Exception e)
             {
                 connect.Close();
-                return result;
+                return null;
             }
             connect.Close();
+            Cart result = new Cart();
+            result.CartItem = cartItem;
+            foreach(CartItem item in cartItem)
+            {
+                result.TotalPrice += item.PricePerProduct;
+            }
             return result;
         }
 
-        public static HttpResult addCart(SqlConnection connect, Cart cart)
+        public static HttpResult addCart(SqlConnection connect, CartItem cart, int CartID)
         {
             HttpResult result = new HttpResult();
             try
             {
-                string sql = "[tk].[cart_insert_update]";
+                string sql = "[tk].[cart_item_merge]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CartID", cart.cartID);
-                cmd.Parameters.AddWithValue("@BookID", cart.BookID);
-                cmd.Parameters.AddWithValue("@Quantity", cart.quantity);
-                cmd.Parameters.Add("@cartIDOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@productInfoID", cart.ProductInfoID);
+                cmd.Parameters.AddWithValue("@productID", cart.ProductID);
+                cmd.Parameters.AddWithValue("@quantity", cart.Quantity);
+                cmd.Parameters.AddWithValue("@cartID", CartID);
+                cmd.Parameters.Add("@productInfoIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
-                result.ID = (int)cmd.Parameters["@cartIDOut"].Value;
+                result.ID = (int)cmd.Parameters["@productInfoIdOut"].Value;
                 result.Message = cmd.Parameters["@resultOut"].Value.ToString();
                 result.Result = result.ID > 0 ? true : false;
             }
@@ -73,26 +82,30 @@ namespace TenkenWeb.Providers
             return result;
         }
 
-        public static HttpResult buy(SqlConnection connect, int userID)
+        public static HttpResult buy(SqlConnection connect, int cartID, Order order)
         {
             HttpResult result = new HttpResult();
             try
             {
-                string sql = "[tk].[buy_cart]";
+                string sql = "[tk].[order_merge]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserID", userID);
-                cmd.Parameters.Add("@cartIDOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@cartID", cartID);
+                cmd.Parameters.AddWithValue("@orderID", order.OrderID);
+                cmd.Parameters.AddWithValue("@addressID", order.Address.ID);
+                cmd.Parameters.AddWithValue("@address", order.Address.AddressName);
+                cmd.Parameters.AddWithValue("@phoneNumber", order.Address.PhoneNumber);
+                cmd.Parameters.AddWithValue("@deliveryStatus", "Waiting");
+                cmd.Parameters.AddWithValue("@paymentStatus", "Waiting");
                 cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
-                result.ID = (int)cmd.Parameters["@cartIDOut"].Value;
                 result.Message = cmd.Parameters["@resultOut"].Value.ToString();
-                result.Result = result.ID > 0 ? true : false;
+                result.Result = true;
             }
             catch (Exception e)
             {
-                result.ID = 1;
+                result.ID = 0;
                 result.Message = TkConstant.UnexpectedError;
                 result.Result = false;
                 connect.Close();

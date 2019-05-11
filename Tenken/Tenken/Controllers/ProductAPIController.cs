@@ -13,6 +13,13 @@ namespace Tenken.Controllers
         static SqlConnection dbConnection = DBProvider.getDbConnection();
 
         [HttpGet]
+        [Route("ProductAPI/getAllProduct")]
+        public IList<Product> GetAllProduct()
+        {
+            return ProductProvider.getProduct(dbConnection, "", 0);
+        }
+
+        [HttpGet]
         [Route("ProductAPI/getProduct")]
         public IList<Product> GetProduct(int productID, string productName)
         {

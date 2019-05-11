@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
@@ -12,6 +13,12 @@ namespace Tenken.Controllers
     {
         static SqlConnection dbConnection = DBProvider.getDbConnection();
 
+        [HttpGet]
+        [Route("CategoryAPI/getAllCategory")]
+        public object getAllCategory()
+        {
+            return JsonConvert.SerializeObject(CategoryProvider.getCategory(dbConnection, "", 0));
+        }
         [HttpGet]
         [Route("CategoryAPI/getCategory")]
         public IList<Category> getCategory(int categoryID, string categoryName)

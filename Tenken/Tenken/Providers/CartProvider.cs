@@ -15,7 +15,6 @@ namespace TenkenWeb.Providers
             List<CartItem> cartItem = new List<CartItem>();
             try
             {
-                CartItem cart = new CartItem();
                 string sql = "[tk].[get_cart_item]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -24,6 +23,7 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    CartItem cart = new CartItem();
                     cart.ProductInfoID = int.Parse(reader["ProductInfoID"].ToString());
                     cart.ProductID = int.Parse(reader["ProductID"].ToString());
                     cart.ProductName = reader["ProductName"].ToString();
@@ -41,7 +41,7 @@ namespace TenkenWeb.Providers
             connect.Close();
             Cart result = new Cart();
             result.CartItem = cartItem;
-            foreach(CartItem item in cartItem)
+            foreach (CartItem item in cartItem)
             {
                 result.TotalPrice += item.PricePerProduct;
             }
@@ -108,6 +108,30 @@ namespace TenkenWeb.Providers
                 result.Result = false;
                 connect.Close();
                 return result;
+            }
+            connect.Close();
+            return result;
+        }
+        public static int GetCartValue(SqlConnection connect, int cartID)
+        {
+            int result = 0;
+            try
+            {
+                string sql = "[tk].[get_cart_value]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@cartID", cartID);
+                connect.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = int.Parse(reader["Quantity"].ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return 0;
             }
             connect.Close();
             return result;

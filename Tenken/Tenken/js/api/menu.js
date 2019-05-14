@@ -1,33 +1,43 @@
-﻿const app = document.getElementById('menu-list')
+﻿const menuList = document.getElementById('menu-list')
 
-const container = document.createElement('li')
-container.setAttribute('class', 'active')
+const listMenu = document.createElement('li')
+listMenu.setAttribute('class', 'active')
 
-app.appendChild(container)
+menuList.appendChild(listMenu)
 
 const link = document.createElement('a')
-link.setAttribute('href', 'http://localhost:57384/home/index')
+link.setAttribute('href', '/home/index')
 link.text = 'Home'
-container.appendChild(link)
+listMenu.appendChild(link)
 
-var request = new XMLHttpRequest()
-request.open('GET', 'http://localhost:57384/CategoryAPI/getAllCategory', true)
-request.onload = function () {
-    // Begin accessing JSON data here
+var islogin = localStorage.getItem('userName') === null ? false : true;
+
+
+var a = document.getElementById('cartValue')
+if (islogin) {
+    a.setAttribute('href', '/Cart/Cart?cartID=' + parseInt(localStorage.getItem('cartID')));
+} else {
+    a.setAttribute('href', '/Home/Login');
+}
+
+var requestMenu = new XMLHttpRequest()
+requestMenu.open('GET', '/CategoryAPI/getAllCategory', true)
+requestMenu.onload = function () {
     var data = JSON.parse(this.response)
-    if (request.status >= 200 && request.status < 400) {
+    // Begin accessing JSON data here
+    if (requestMenu.status >= 200 && requestMenu.status < 400) {
         data.forEach(category => {
             const container = document.createElement('li')
-            app.appendChild(container)
+            menuList.appendChild(container)
 
             const link = document.createElement('a')
-            link.setAttribute('href', 'http://localhost:57384/category/index?categoryID=' + category.CategoryID)
+            link.setAttribute('href', '/Product/Category?categoryID=' + category.CategoryID)
             link.text = category.CategoryName
             container.appendChild(link)
         })
     } else {
-        console.log(request.status);
+        console.log(requestMenu.status);
     }
 }
 
-request.send()
+requestMenu.send()

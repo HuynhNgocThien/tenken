@@ -17,7 +17,6 @@ namespace TenkenWeb.Providers
             List<Comment> result = new List<Comment>();
             try
             {
-                Comment item = new Comment();
                 string sql = "[tk].[get_comment]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -26,6 +25,7 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    Comment item = new Comment();
                     item.CommentID = int.Parse(reader["CommentID"].ToString());
                     item.ProductID = int.Parse(reader["ProductID"].ToString());
                     item.UserID = int.Parse(reader["UserID"].ToString());
@@ -49,7 +49,6 @@ namespace TenkenWeb.Providers
             List<Comment> result = new List<Comment>();
             try
             {
-                Comment item = new Comment();
                 string sql = "[tk].[get_reply]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -58,6 +57,7 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    Comment item = new Comment();
                     item.CommentID = int.Parse(reader["CommentID"].ToString());
                     item.ProductID = int.Parse(reader["ProductID"].ToString());
                     item.UserID = int.Parse(reader["UserID"].ToString());

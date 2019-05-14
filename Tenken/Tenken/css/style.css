@@ -51,6 +51,10 @@ html {
 @-ms-viewport {
   width: device-width; }
 
+a{
+    text-decoration:none;
+}
+
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
@@ -8844,3 +8848,7 @@ input[type="text"] {
 
 .js .animate-box {
   opacity: 0; }
+
+.add-to-cart{
+    padding-bottom:20px;
+}

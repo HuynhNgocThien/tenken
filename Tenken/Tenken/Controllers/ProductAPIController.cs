@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
@@ -13,22 +14,42 @@ namespace Tenken.Controllers
         static SqlConnection dbConnection = DBProvider.getDbConnection();
 
         [HttpGet]
-        [Route("ProductAPI/getAllProduct")]
-        public IList<Product> GetAllProduct()
+        [Route("ProductAPI/GetTopProduct")]
+        public static IList<Product> GetTopProduct(string typeOfTop)
         {
-            return ProductProvider.getProduct(dbConnection, "", 0);
+            IList<Product> result = new List<Product>();
+            switch (typeOfTop)
+            {
+                case "New":
+                    result = ProductProvider.getTopProduct(dbConnection,0);
+                    break;
+            }
+            return result;
+        }
+        [HttpGet]
+        [Route("ProductAPI/getAllProduct")]
+        public object GetAllProduct()
+        {
+            return ProductProvider.getProduct(dbConnection);
         }
 
         [HttpGet]
         [Route("ProductAPI/getProduct")]
-        public IList<Product> GetProduct(int productID, string productName)
+        public static Product GetProductByID(int productID)
         {
-            return ProductProvider.getProduct(dbConnection, productName, productID);
+            return ProductProvider.getProductByID(dbConnection, productID);
+        }
+
+        [HttpGet]
+        [Route("ProductAPI/getProduct")]
+        public static object GetProductByName(string productName)
+        {
+            return JsonConvert.SerializeObject(ProductProvider.getProduct(dbConnection, productName));
         }
 
         [HttpGet]
         [Route("ProductAPI/getProductByCategory")]
-        public IList<Product> GetProductByCategory(int categoryID)
+        public static IList<Product> GetProductByCategory(int categoryID)
         {
             return ProductProvider.getProductByCategory(dbConnection, categoryID);
         }

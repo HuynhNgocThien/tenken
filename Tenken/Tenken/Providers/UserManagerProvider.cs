@@ -52,7 +52,7 @@ namespace TenkenWeb.Providers
             return result;
         }
 
-        public static HttpResult register(SqlConnection connect, User user,Address addess, string password)
+        public static HttpResult register(SqlConnection connect, User user, Address addess, string password)
         {
             HttpResult result = new HttpResult();
             password = DBProvider.EncodeSHA1(password);
@@ -121,7 +121,6 @@ namespace TenkenWeb.Providers
             List<User> result = new List<User>();
             try
             {
-                User item = new User();
                 string sql = "[tk].[get_all_user]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -129,6 +128,7 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    User item = new User();
                     item.ID = int.Parse(reader["UserID"].ToString());
                     item.UserName = reader["UserName"].ToString();
                     item.Email = reader["Email"].ToString();

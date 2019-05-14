@@ -1,8 +1,5 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="colorlib-product">
+﻿
+<div class="colorlib-product" id="homeIndex">
     <div class="container">
         <div class="row">
             <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
@@ -10,95 +7,23 @@
             </div>
         </div>
         <div class="row row-pb-md">
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Water Sleeping Mask</a></h2>
-                        <span class="price">750.000 đ</span>
+            @for (var i = 0; i < ViewBag.Size; i++)
+            {
+                <div class="col-lg-3 mb-4 text-center">
+                    <div class="product-entry border">
+                        <a href="/Product/ProductDetail?productID=@ViewBag.ProductList[i].ProductID" class="prod-img">
+                            <img class="img-fluid" alt="@ViewBag.ProductList[i].ProductName" src="../images/@ViewBag.ProductList[i].ImageName">
+                        </a>
+                        <div class="desc">
+                            <h2><a href="/Product/ProductDetail?productID=@ViewBag.ProductList[i].ProductID">@ViewBag.ProductList[i].ProductName</a></h2>
+                            <span class="price">@ViewBag.ProductList[i].Price VND</span>
+                        </div>
+                        <div class="add-to-cart">
+                            <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID)">Add To Cart</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Water Bank Gel Cream</a></h2>
-                        <span class="price">850.000 đ</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">White Dew Tone-up Cream</a></h2>
-                        <span class="price">950.000 đ</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Two Tone Matte Lip Bar</a></h2>
-                        <span class="price">650.000 đ</span>
-                    </div>
-                </div>
-            </div>
-            <div class="w-100"></div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item5.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Magnum Big Shot</a></h2>
-                        <span class="price">175.000 đ</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item6.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Powder Matte</a></h2>
-                        <span class="price">175.000 đ</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item7.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Clear Smooth Pressed Powder</a></h2>
-                        <span class="price">$139.00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-4 text-center">
-                <div class="product-entry border">
-                    <a href="#" class="prod-img">
-                        <img src="../images/item8.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                    </a>
-                    <div class="desc">
-                        <h2><a href="#">Lip Color Palette</a></h2>
-                        <span class="price">$139.00</span>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

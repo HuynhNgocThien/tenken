@@ -14,5 +14,7 @@ namespace Tenken.Models
         public double Price { get; set; }
         public int StockQuantity { get; set; }
         public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string ImageName { get; set; }
     }
 }

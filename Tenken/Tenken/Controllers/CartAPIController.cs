@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using Newtonsoft.Json;
+using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
 using TenkenWeb.Common;
@@ -16,6 +17,13 @@ namespace Tenken.Controllers
         public Cart GetCart(int cartID)
         {
             return CartProvider.getCart(dbConnection,cartID);
+        }
+
+        [HttpGet]
+        [Route("CartAPI/getCartValue")]
+        public object GetCartValue(int cartID)
+        {
+            return JsonConvert.SerializeObject(CartProvider.GetCartValue(dbConnection, cartID));
         }
 
         [HttpPost]

@@ -17,7 +17,6 @@ namespace TenkenWeb.Providers
             List<Category> result = new List<Category>();
             try
             {
-                Category item = new Category();
                 string sql = "[tk].[get_category]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -27,6 +26,7 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    Category item = new Category();
                     item.CategoryID = int.Parse(reader["CategoryID"].ToString());
                     item.CategoryName = reader["CategoryName"].ToString();
                     result.Add(item);

@@ -1,0 +1,44 @@
+﻿
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="bread"><span>@ViewBag.CategoryName</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+                @if (ViewBag.Size > 0)
+                {
+                    <h2>List Products for @ViewBag.CategoryName</h2>
+                }
+                else
+                {
+                    <h2>No Product Found</h2>
+                }
+            </div>
+        </div>
+        @for (var i = 0; i < ViewBag.Size; i++)
+        {
+            <div class="col-md-3 col-lg-3 mb-4 text-center">
+                <div class="product-entry border">
+                    <a href="/Product/ProductDetail?productID=@ViewBag.ProductList[i].ProductID" class="prod-img">
+                        <img src="../images/@ViewBag.ProductList[i].ImageName" class="img-fluid" alt="@ViewBag.ProductList[i].ProductName">
+                    </a>
+                    <div class="desc">
+                        <h2><a href="/Product/ProductDetail?productID=@ViewBag.ProductList[i].ProductID">@ViewBag.ProductList[i].ProductName</a></h2>
+                        <span class="price">@ViewBag.ProductList[i].Price VND</span>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID)">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

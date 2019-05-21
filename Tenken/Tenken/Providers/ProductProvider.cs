@@ -159,7 +159,7 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@categoryID", product.CategoryID);
                 cmd.Parameters.AddWithValue("@imageName", product.ImageName);
                 cmd.Parameters.Add("@productIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.ID = (int)cmd.Parameters["@productIdOut"].Value;

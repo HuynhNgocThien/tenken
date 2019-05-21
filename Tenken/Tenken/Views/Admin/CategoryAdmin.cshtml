@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "CategoryAdmin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (ViewBag.Success != null && ViewBag.Success == true)
+{
+    <script>
+        if (confirm("Success!")) {
+            window.location.href = "/Admin/Menu?TypeMenu=Category"
+        } else {
+            window.location.href = "/Admin/Menu?TypeMenu=Category"
+
+        }
+
+/**/</script>
+}
+
+<div class="colorlib-product" id="homeIndex">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading admin-heading">
+                @if (ViewBag.Size>0 && ViewBag.Category[0].CategoryID == 0)
+                {
+                    <h2>Add new Category</h2>
+
+                }
+                else
+                {
+                    <h2>Edit category</h2>
+                }
+            </div>
+        </div>
+        <div id="main-panel">
+            <div class="content" style="top: 0px;">
+                <form id="login-form" class="loginForm" method="post">
+                    @if (ViewBag.Error != null)
+                    {
+                        <p class="arlet">@ViewBag.Error</p>
+                    }
+                    <div style="display:none">
+                        <input id="sso_login_form_account" name="categoryID" type="text" value="@ViewBag.Category[0].CategoryID">
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Category Name</p>
+                        <input id="sso_login_form_account" name="categoryName" type="text" placeholder="Category Name" autocorrect="off" autocapitalize="off" value="@ViewBag.Category[0].CategoryName">
+                    </div>
+                    <div id="line-btn" class="line btnLine">
+                        <input id="btn btn-primary confirm-btn" type="submit" value="Save" class="btn">
+                    </div>
+                    <div id="line-btn" class="line btnLine">
+                        <input id="btn btn-primary" value="Cancel" class="btn" onclick="">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="../css/login.css">
+<style>
+    .content form div p {
+        text-align: center;
+        padding-top: 10px;
+        font-weight: 700;
+    }
+</style>
+

@@ -1,0 +1,53 @@
+﻿@if (ViewBag.SuccessRegister != null && ViewBag.SuccessRegister == true)
+{
+    <script>
+        if (confirm("Success register user")) {
+            window.location.href = "/Home/Login"
+        } else {
+            window.location.href = "/Home/Login"
+
+        }
+    </script>
+}
+<div id="main-panel">
+    <div class="content" style="top: 0px;">
+        <h2 class="title">Register</h2>
+        <form id="login-form" class="loginForm" method="post">
+            <div id="account-div">
+                <div id="line-account" class="line">
+                    <input id="sso_login_form_account" name="username" type="text" placeholder="User Name" autocorrect="off" autocapitalize="off" value="@ViewBag.UserInfo.user.UserName">
+                </div>
+                <div id="line-account" class="line">
+                    <input id="sso_login_form_email" name="email" type="text" placeholder="Email" autocorrect="off" autocapitalize="off" value="@ViewBag.UserInfo.user.Email" onchange="checkEmail(this.value)">
+                </div>
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <p class="arlet">@ViewBag.ErrorMessage</p>
+                }
+            </div>
+            <div class="split"></div>
+            <div id="password-div">
+                <div id="line-password" class="line">
+                    <input id="sso_login_form_password" name="password" type="password" placeholder="Password" value="@ViewBag.Password" onchange="checkPassword()">
+                </div>
+                <div id="line-password" class="line">
+                    <input id="sso_login_form_re_password" type="password" placeholder="Re-Password" value="@ViewBag.RePassword" onchange="checkPassword()">
+                </div>
+            </div>
+            <div class="split"></div>
+            <div id="line-account" class="line">
+                <input id="sso_login_form_address" name="address" type="text" placeholder="Address" autocorrect="off" autocapitalize="off">
+            </div>
+            <div id="line-account" class="line">
+                <input id="sso_login_form_phone_number" name="phonenumber" type="text" placeholder="Phone Number" autocorrect="off" autocapitalize="off" maxlength="10" onkeypress="">
+            </div>
+            <div id="line-btn" class="line btnLine">
+                <input id="btn btn-primary confirm-btn" type="submit" value="Register" class="btn" onclick="register()">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../js/home/register.js"></script>
+
+<link rel="stylesheet" href="../css/login.css">
+

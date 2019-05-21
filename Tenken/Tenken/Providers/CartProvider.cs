@@ -48,7 +48,7 @@ namespace TenkenWeb.Providers
             return result;
         }
 
-        public static HttpResult addCart(SqlConnection connect, CartItem cart, int CartID)
+        public static HttpResult addCart(SqlConnection connect, int ProductID, int Quantity, int CartID)
         {
             HttpResult result = new HttpResult();
             try
@@ -56,12 +56,11 @@ namespace TenkenWeb.Providers
                 string sql = "[tk].[cart_item_merge]";
                 SqlCommand cmd = new SqlCommand(sql, connect);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@productInfoID", cart.ProductInfoID);
-                cmd.Parameters.AddWithValue("@productID", cart.ProductID);
-                cmd.Parameters.AddWithValue("@quantity", cart.Quantity);
+                cmd.Parameters.AddWithValue("@productID", ProductID);
+                cmd.Parameters.AddWithValue("@quantity", Quantity);
                 cmd.Parameters.AddWithValue("@cartID", CartID);
                 cmd.Parameters.Add("@productInfoIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.ID = (int)cmd.Parameters["@productInfoIdOut"].Value;
@@ -95,7 +94,7 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@phoneNumber", order.Address.PhoneNumber);
                 cmd.Parameters.AddWithValue("@deliveryStatus", "Waiting");
                 cmd.Parameters.AddWithValue("@paymentStatus", "Waiting");
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.Message = cmd.Parameters["@resultOut"].Value.ToString();

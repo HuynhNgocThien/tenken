@@ -5,10 +5,10 @@ namespace Tenken.Controllers
 {
     public class CartController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Cart(int CartID)
         {
-            ViewBag.ProductList = ProductAPIController.GetTopProduct("New");
-            ViewBag.Size = ViewBag.ProductList.Count;
+            ViewBag.Cart = CartAPIController.GetCart(CartID);
+            ViewBag.Size = ViewBag.Cart.CartItem.Count;
             return View();
         }
     }

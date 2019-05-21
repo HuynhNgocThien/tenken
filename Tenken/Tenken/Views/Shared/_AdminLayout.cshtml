@@ -34,6 +34,8 @@
 
     <!-- Theme style  -->
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -46,44 +48,31 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-7 col-md-9">
-                            <div id="colorlib-logo"><a href="http://localhost:57384/home/index">Tenken</a></div>
+                            <div id="colorlib-logo"><a href="/Admin/Index">Tenken Admin</a></div>
                         </div>
                         <div class="col-sm-5 col-md-3">
-                            <form action="#" class="search-wrap user-info">
-                                <div class="form-group">
-                                    <input type="search" class="form-control search" placeholder="Search">
-                                    <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
-                                </div>
-                                @if (HttpContext.Current.Session["UserID"] != null)
-                                {
-                                    <p>Welcome @HttpContext.Current.Session["UserName"].ToString(), <a href="/Home/LogOut">Logout</a></p>
-                                }
-                                else
-                                {
-                                    <p><a href="/Home/Login">Login</a> Or <a href="/Home/Register"> Register</a></p>
-                                }
-                            </form>
+                            @if (HttpContext.Current.Session["isLoginAdmin"] != null)
+                            {
+                                <p>Admin is login, <a href="/Admin/LogOut">Log Out</a></p>
+                            }
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12 text-left menu-1">
-                            <ul id="menu-list">
-                                @if (HttpContext.Current.Session["CartID"] != null)
-                                {
-                                    <li class="cart"><a id="cartValue" href="/Cart/Cart?cartID=@HttpContext.Current.Session["CartID"].ToString()"><i class="ifon-shopping-cart"></i></a></li>
-                                }
-                                else
-                                {
-                                    <li class="cart"><a id="cartValue" href="/Home/Login"><i class="ifon-shopping-cart"></i></a></li>
-
-                                }
-                            </ul>
+                    @if (HttpContext.Current.Session["isLoginAdmin"] != null)
+                    {
+                        <div class="row">
+                            <div class="col-sm-12 text-left menu-1">
+                                <ul id="menu-list">
+                                    <li><a href="/Admin/Index">Home</a></li>
+                                    <li><a href="/Admin/Menu?TypeMenu=User">User</a></li>
+                                    <li><a href="/Admin/Menu?TypeMenu=Category">Category</a></li>
+                                    <li><a href="/Admin/Menu?TypeMenu=Product">Product</a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </nav>
-        <script src="../js/api/menu.js"></script>
     </div>
 
     <div class="gototop js-top">
@@ -125,4 +114,3 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-<script src="../js/common/globalFunc.js"></script>

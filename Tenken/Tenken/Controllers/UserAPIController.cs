@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
@@ -14,31 +15,40 @@ namespace Tenken.Controllers
 
         [HttpGet]
         [Route("UserAPI/login")]
-        public bool Login(string email, string password)
+        public static bool Login(string email, string password, out User userOut)
         {
-            password = DBProvider.EncodeSHA1(password);
-            return UserManagerProvider.login(dbConnection,email, password);
+            return UserManagerProvider.login(dbConnection, email, password, out userOut);
         }
 
         [HttpPost]
         [Route("UserAPI/register")]
-        public HttpResult Register(User user, Address addess, string password)
+        public static HttpResult Register(User user, Address addess, string password)
         {
-            return UserManagerProvider.register(dbConnection,user,addess,password);
+            return UserManagerProvider.register(dbConnection, user, addess, password);
         }
 
         [HttpGet]
         [Route("UserAPI/getUserInfo")]
-        public UserInfo GetUserInfo(int userID)
+        public static UserInfo GetUserInfo(int userID)
         {
             return UserManagerProvider.getUserInfo(dbConnection, userID);
         }
 
         [HttpGet]
         [Route("UserAPI/getAllUser")]
-        public IList<User> GetAllUser()
+        public static IList<User> GetAllUser()
         {
             return UserManagerProvider.getAllUser(dbConnection);
+        }
+        public static HttpResult EditUser(int userid, string username, string email)
+        {
+            return UserManagerProvider.EditUser(dbConnection, userid, username, email);
+        }
+        [HttpPost]
+        [Route("UserAPI/ResetPassword")]
+        public object ResetPassword(int userID)
+        {
+            return JsonConvert.SerializeObject(UserManagerProvider.ResetPassword(dbConnection, userID));
         }
 
     }

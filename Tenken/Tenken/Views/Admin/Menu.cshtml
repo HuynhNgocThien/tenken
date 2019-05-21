@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="colorlib-product" id="homeIndex">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+                <h2>@ViewBag.Type</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7 col-md-9">
+            </div>
+            <div class="col-sm-5 col-md-3">
+                @switch (ViewBag.Type)
+                {
+                    case "Category":
+                        <a class="btn btn-primary btn-add-new text-center" href="/Admin/CategoryAdmin?categoryID=0">Add New Category</a>
+                        break;
+                    case "Product":
+                        <a class="btn btn-primary btn-add-new text-center" href="/Admin/ProductAdmin?productID=0">Add New Product</a>
+                        break;
+                }
+            </div>
+        </div>
+        <table id="customers">
+            @switch (ViewBag.Type)
+            {
+                case "User":
+                    <tr>
+                        <th class="id-column">UserID</th>
+                        <th class="user-name">User Name</th>
+                        <th class="email">Email</th>
+                        <th class="id-column">CartID</th>
+                        <th class="tool-column"></th>
+                    </tr>
+                    if (ViewBag.Size == 0)
+                    {
+                        <tr>
+                            <td class="no-record-row" colspan="5">No record</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        for (var i = 0; i < ViewBag.Size; i++)
+                        {
+                            <tr>
+                                <td class="id-column">@ViewBag.DataList[i].ID</td>
+                                <td>@ViewBag.DataList[i].UserName</td>
+                                <td>@ViewBag.DataList[i].Email</td>
+                                <td class="id-column">@ViewBag.DataList[i].CartID</td>
+                                <td>
+                                    <a class="btn btn-primary text-center tool-button" href="/Admin/UserAdmin?userID=@ViewBag.DataList[i].ID"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-primary text-center" onclick="confirmResetPassword(@ViewBag.DataList[i].ID,@ViewBag.DataList[i].UserName)"><i class="glyphicon glyphicon-refresh"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    break;
+                case "Category":
+                    <tr>
+                        <th class="id-column">CategoryID</th>
+                        <th class="category-name">Category Name</th>
+                        <th class="tool-column"></th>
+                    </tr>
+                    if (ViewBag.Size == 0)
+                    {
+                        <tr>
+                            <td class="no-record-row" colspan="3">No record</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        for (var i = 0; i < ViewBag.Size; i++)
+                        {
+                            <tr>
+                                <td class="id-column">@ViewBag.DataList[i].CategoryID</td>
+                                <td>@ViewBag.DataList[i].CategoryName</td>
+                                <td>
+                                    <a class="btn btn-primary text-center tool-button" href="/Admin/CategoryAdmin?categoryID=@ViewBag.DataList[i].CategoryID"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-primary text-center" onclick="arletRemoveCategory(@ViewBag.DataList[i].CategoryID)"><i class="glyphicon glyphicon-remove"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    break;
+                case "Product":
+                    <tr>
+                        <th class="id-column">ProductID</th>
+                        <th class="product-img">Product Image</th>
+                        <th class="product-name-column">Product Name</th>
+                        <th class="price">Price</th>
+                        <th class="product-category">Category Name</th>
+                        <th class="description">Description</th>
+                        <th class="tool-column"></th>
+                    </tr>
+                    if (ViewBag.Size == 0)
+                    {
+                        <tr>
+                            <td class="no-record-row" colspan="7">No record</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        for (var i = 0; i < ViewBag.Size; i++)
+                        {
+                            <tr>
+                                <td class="id-column">@ViewBag.DataList[i].ProductID</td>
+                                <td class="product-img"><img src="../images/@ViewBag.DataList[i].ImageName" style="width:170px;" /></td>
+                                <td>@ViewBag.DataList[i].ProductName</td>
+                                <td>@ViewBag.DataList[i].Price VND</td>
+                                <td>@ViewBag.DataList[i].CategoryName</td>
+                                <td>
+                                    <button class="btn btn-primary text-center" onclick="showdescription()">Show Description</button>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary text-center tool-button" href="/Admin/ProductAdmin?productID=@ViewBag.DataList[i].ProductID"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-primary text-center" onclick="arletRemoveProduct(@ViewBag.DataList[i].ProductID)"><i class="glyphicon glyphicon-remove"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    break;
+            }
+        </table>
+    </div>
+</div>
+@if (ViewBag.Type == "Product")
+{
+    for (var i = 0; i < ViewBag.Size; i++)
+    {
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>@ViewBag.DataList[i].Description</p>
+            </div>
+        </div>
+    }
+
+
+};
+
+<script src="../js/common/adminMenu.js"></script>

@@ -12,7 +12,7 @@ namespace TenkenWeb.Providers
 {
     public class UserManagerProvider
     {
-        public static bool login(SqlConnection connect, string email, string password)
+        public static bool login(SqlConnection connect, string email, string password, out User userOut)
         {
             bool result;
             password = DBProvider.EncodeSHA1(password);
@@ -36,16 +36,19 @@ namespace TenkenWeb.Providers
                 if (user.ID > 0)
                 {
                     result = true;
+                    userOut = user;
                 }
                 else
                 {
                     result = false;
+                    userOut = null;
                 }
             }
             catch (Exception e)
             {
                 result = false;
                 connect.Close();
+                userOut = null;
                 return result;
             }
             connect.Close();
@@ -67,7 +70,7 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@address", addess.AddressName);
                 cmd.Parameters.AddWithValue("@phoneNumber", addess.PhoneNumber);
                 cmd.Parameters.Add("@userIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.ID = (int)cmd.Parameters["@userIdOut"].Value;
@@ -89,6 +92,8 @@ namespace TenkenWeb.Providers
         public static UserInfo getUserInfo(SqlConnection connect, int userID)
         {
             UserInfo result = new UserInfo();
+            User user = new User();
+            Address address = new Address();
             try
             {
                 string sql = "[tk].[get_user_info]";
@@ -99,13 +104,15 @@ namespace TenkenWeb.Providers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    result.user.ID = int.Parse(reader["UserID"].ToString());
-                    result.user.UserName = reader["UserName"].ToString();
-                    result.user.Email = reader["Email"].ToString();
-                    result.address.ID = int.Parse(reader["AddressID"].ToString());
-                    result.address.AddressName = reader["Address"].ToString();
-                    result.address.PhoneNumber = reader["PhoneNumber"].ToString();
+                    user.ID = int.Parse(reader["UserID"].ToString());
+                    user.UserName = reader["UserName"].ToString();
+                    user.Email = reader["Email"].ToString();
+                    address.ID = int.Parse(reader["AddressID"].ToString());
+                    address.AddressName = reader["Address"].ToString();
+                    address.PhoneNumber = reader["PhoneNumber"].ToString();
                 }
+                result.user = user;
+                result.address = address;
             }
             catch (Exception e)
             {
@@ -140,6 +147,58 @@ namespace TenkenWeb.Providers
             {
                 connect.Close();
                 return null;
+            }
+            connect.Close();
+            return result;
+        }
+        public static HttpResult EditUser(SqlConnection connect, int userID,string userName,string email)
+        {
+            HttpResult result = new HttpResult();
+            try
+            {
+                string sql = "[tk].[edit_user_admin]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.Add("@userIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                connect.Open();
+                cmd.ExecuteNonQuery();
+                result.ID = (int)cmd.Parameters["@userIdOut"].Value;
+                result.Message = cmd.Parameters["@resultOut"].Value.ToString();
+                result.Result = result.ID > 0 ? true : false;
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return null;
+            }
+            connect.Close();
+            return result;
+        }
+        public static bool ResetPassword(SqlConnection connect, int userID)
+        {
+            bool result = false;
+            try
+            {
+                string sql = "[tk].[reset_password_admin]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.Parameters.Add("@userIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                connect.Open();
+                cmd.ExecuteNonQuery();
+                int ID = (int)cmd.Parameters["@userIdOut"].Value;
+                string Message = cmd.Parameters["@resultOut"].Value.ToString();
+                result = ID > 0 ? true : false;
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return false;
             }
             connect.Close();
             return result;

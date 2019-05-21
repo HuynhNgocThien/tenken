@@ -52,7 +52,7 @@ html {
   width: device-width; }
 
 a{
-    text-decoration:none;
+    text-decoration:none !important;
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -8852,3 +8852,10 @@ input[type="text"] {
 .add-to-cart{
     padding-bottom:20px;
 }
+.user-info {
+    font-family: "Rokkitt", Georgia, serif;
+    font-size: 20px;
+    text-align: right;
+    padding-bottom: 20px;
+}
+

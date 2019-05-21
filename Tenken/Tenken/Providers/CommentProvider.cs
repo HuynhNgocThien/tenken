@@ -91,7 +91,7 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@productID", comment.ProductID);
                 cmd.Parameters.AddWithValue("@rating", comment.Rating);
                 cmd.Parameters.Add("@commentIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.ID = (int)cmd.Parameters["@commentIdOut"].Value;

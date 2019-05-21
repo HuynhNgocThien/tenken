@@ -20,10 +20,29 @@ let getCartValue = function (cartID) {
 }
 getCartValue();
 
-let updateCart = function (data) {
-    // Add cart
+let updateCart = function (productId, cartID) {
+    if (cartID === 0) {
+        confirm("Please login first")
+    }
+    else {
+        // Add cart
+        addToCart(productId, cartID);
+        // Get cart value
+        getCartValue(cartID);
+    }
+}
 
-    // Get cart value
-    cartID = parseInt(sessionStorage.getItem('cartID'));
-    getCartValue(cartID);
-}   
+let addToCart = function (productID, cartID) {
+    if (cartID !== null && cartID != undefined) {
+        var request = new XMLHttpRequest()
+        request.open('POST', '/CartAPI/AddCart', true)
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            console.log(data);
+        }
+        var params = 'ProductID=' + productID + '&Quantity=1&CartID=' + cartID;
+        request.send(params);
+    }
+}

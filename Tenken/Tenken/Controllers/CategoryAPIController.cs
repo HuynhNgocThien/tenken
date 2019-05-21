@@ -21,7 +21,7 @@ namespace Tenken.Controllers
         }
         [HttpGet]
         [Route("CategoryAPI/getCategory")]
-        public IList<Category> getCategory(int categoryID, string categoryName)
+        public static IList<Category> getCategory(int categoryID, string categoryName)
         {
             return CategoryProvider.getCategory(dbConnection,categoryName,categoryID);
         }
@@ -29,9 +29,14 @@ namespace Tenken.Controllers
         [HttpPost]
         [HttpPut]
         [Route("CategoryAPI/categoryMerge")]
-        public HttpResult CategoryMerge(Category category)
+        public static HttpResult CategoryMerge(Category category)
         {
             return CategoryProvider.categoryMerge(dbConnection,category);
+        }
+
+        public static IList<Category> getAllCategoryAdmin()
+        {
+            return CategoryProvider.getCategory(dbConnection, "", 0);
         }
     }
 }

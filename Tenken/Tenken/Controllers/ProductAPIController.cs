@@ -28,7 +28,7 @@ namespace Tenken.Controllers
         }
         [HttpGet]
         [Route("ProductAPI/getAllProduct")]
-        public object GetAllProduct()
+        public static IList<Product> GetAllProduct()
         {
             return ProductProvider.getProduct(dbConnection);
         }
@@ -57,7 +57,7 @@ namespace Tenken.Controllers
         [HttpPost]
         [HttpPut]
         [Route("ProductAPI/productMerge")]
-        public HttpResult ProductMerge(Product product)
+        public static HttpResult ProductMerge(Product product)
         {
             return ProductProvider.productMerge(dbConnection,product);
         }

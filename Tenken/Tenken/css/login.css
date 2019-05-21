@@ -1,0 +1,80 @@
+﻿.content {
+    width: 760px;
+    min-height: 450px;
+    margin: 50px auto 45px;
+    padding-bottom: 100px;
+    background-color: #ffffff;
+}
+
+    .content .title {
+        margin: 80px 0 50px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .content .loginForm {
+        width: 395px;
+        margin: 0 auto;
+    }
+
+        .content .loginForm .line {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .content .loginForm .btnLine {
+            padding-top: 10px;
+        }
+
+        .content .loginForm .line input[type='text'], input[type='password'] {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dad8d3;
+            border-radius: 3px;
+            line-height: 14px;
+            font-size: 12px;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .content .loginForm .btnLine .btn {
+            width: 100%;
+            padding: 12px 15px;
+            max-width: none;
+            background-color: #88c8bc;
+        }
+
+.divider {
+    display: block;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: -8px;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    width: 90%;
+}
+
+.content .linkLine {
+    margin-top: 45px;
+    text-align: center;
+    color: #dad8d3;
+}
+
+.split {
+    border-bottom: 1px solid gray;
+    margin-bottom: 15px;
+    top: -33px;
+    left: -13px;
+}
+.content .btnLine button a{
+    text-decoration:none;
+    color:black;
+}
+.arlet{
+    color:red;
+    text-align:center;
+    padding-bottom:10px;
+}

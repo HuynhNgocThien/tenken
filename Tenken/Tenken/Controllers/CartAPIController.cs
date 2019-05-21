@@ -14,9 +14,9 @@ namespace Tenken.Controllers
 
         [HttpGet]
         [Route("CartAPI/getCart")]
-        public Cart GetCart(int cartID)
+        public static Cart GetCart(int cartID)
         {
-            return CartProvider.getCart(dbConnection,cartID);
+            return CartProvider.getCart(dbConnection, cartID);
         }
 
         [HttpGet]
@@ -27,11 +27,10 @@ namespace Tenken.Controllers
         }
 
         [HttpPost]
-        [HttpPut]
-        [Route("CartAPI/addCart")]
-        public HttpResult AddCart(CartItem cart, int cartID)
+        [Route("CartAPI/AddCart")]
+        public object AddCart(int ProductID,int Quantity,int CartID)
         {
-            return CartProvider.addCart(dbConnection,cart,cartID);
+            return JsonConvert.SerializeObject(CartProvider.addCart(dbConnection, ProductID, Quantity, CartID));
         }
 
         [HttpPost]

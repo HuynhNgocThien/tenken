@@ -34,7 +34,7 @@
                         <span class="price">@ViewBag.ProductList[i].Price VND</span>
                     </div>
                     <div class="add-to-cart">
-                        <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID)">Add To Cart</button>
+                        <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID,@HttpContext.Current.Session["CartID"])">Add To Cart</button>
                     </div>
                 </div>
             </div>

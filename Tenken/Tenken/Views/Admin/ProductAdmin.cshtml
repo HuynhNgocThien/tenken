@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "ProductAdmin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (ViewBag.Success != null && ViewBag.Success == true)
+{
+    <script>
+        if (confirm("Success!")) {
+            window.location.href = "/Admin/Menu?TypeMenu=Product"
+        } else {
+            window.location.href = "/Admin/Menu?TypeMenu=Product"
+
+        }
+
+/**/</script>
+}
+
+<div class="colorlib-product" id="homeIndex">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading admin-heading">
+                <h2>Edit user</h2>
+            </div>
+        </div>
+        <div id="main-panel">
+            <div class="content" style="        top: 0px;">
+                <form id="login-form" class="loginForm" method="post" runat="server" enctype="multipart/form-data">
+                    @if (ViewBag.Error != null)
+                    {
+                        <p class="arlet">@ViewBag.Error</p>
+                    }
+                    <div style="        display: none">
+                        <input id="sso_login_form_account" name="productID" type="text" value="@ViewBag.Product.ProductID">
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Product Name</p>
+                        <input id="sso_login_form_account" name="productName" type="text" placeholder="Product Name" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.ProductName">
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Description</p>
+                        <textarea class="text-area-description" id="sso_login_form_account" name="description" placeholder="Description" rows="5">@ViewBag.Product.Description</textarea>
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Price</p>
+                        <div class="row" style="margin-left:0px;">
+                            <input id="sso_login_form_account" name="price" type="number" placeholder="Price" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.Price"> <p style="padding-left:10px;">VND</p>
+                        </div>
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Category</p>
+                        <select name="categoryid">
+                            @if (ViewBag.Product.CategoryID == 0)
+                            {
+                                <option value="0">Select</option>
+                            }
+                            else
+                            {
+                                <option value="@ViewBag.Product.CategoryID">@ViewBag.Product.CategoryName</option>
+
+                            }
+                            @for (var i = 0; i < ViewBag.CategoryList.Count; i++)
+                            {
+                                if (ViewBag.CategoryList[i].CategoryID != ViewBag.Product.CategoryID)
+                                {
+                                    <option value="@ViewBag.CategoryList[i].CategoryID">@ViewBag.CategoryList[i].CategoryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div id="line-account" class="line">
+                        <p>Product Image</p>
+                        <input class="select-file" id="file-select" name="ImageURL" type="file" placeholder="Image" accept=".gif,.jpg,.jpeg,.png " value="@ViewBag.ImageURL">
+                        <img id="image-display" style="width:160px;margin-top:10px;" />
+                    </div>
+                    <div id="line-btn" class="line btnLine">
+                        <input id="btn btn-primary confirm-btn" type="submit" onclick="btnUploadClick" value="Save" class="btn">
+                    </div>
+                    <div id="line-btn" class="line btnLine">
+                        <input id="btn btn-primary" value="Cancel" class="btn" onclick="">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="../css/login.css">
+<style>
+    .content form div p {
+        text-align: center;
+        padding-top: 10px;
+        font-weight: 700;
+    }
+
+    .text-area-description {
+        display: block;
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgb(218, 216, 211);
+        border-radius: 3px;
+        line-height: 14px;
+        font-size: 12px;
+        max-width: 100%;
+        text-align: left;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        height: 92px;
+        resize: none;
+    }
+
+    .content .loginForm .line input[type="number"] {
+        display: block;
+        width: 80%;
+        padding: 12px 15px;
+        border: 1px solid rgb(218, 216, 211);
+        border-radius: 3px;
+        font-size: 12px;
+        max-width: 80%;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .content .loginForm .line select {
+        display: block;
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgb(218, 216, 211);
+        border-radius: 3px;
+        font-size: 12px;
+        max-width: 100%;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .select-file {
+        width: 60%;
+        max-width: 60%;
+    }
+</style>
+

@@ -52,7 +52,7 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@categoryID", category.CategoryID);
                 cmd.Parameters.AddWithValue("@categoryName", category.CategoryName);
                 cmd.Parameters.Add("@categoryIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.ID = (int)cmd.Parameters["@categoryIdOut"].Value;

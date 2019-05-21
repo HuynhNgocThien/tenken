@@ -1,13 +1,18 @@
-﻿<div id="main-panel">
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div id="main-panel">
     <div class="content" style="top: 0px;">
         <h2 class="title">Login</h2>
         <form id="login-form" class="loginForm" method="post">
             @if (ViewBag.Error)
             {
-                <p class="arlet">Email or Password is invalid</p>
+                <p class="arlet">User Name or Password is invalid</p>
             }
             <div id="line-account" class="line">
-                <input id="sso_login_form_account" name="email" type="text" placeholder="Email" autocorrect="off" autocapitalize="off" value="@ViewBag.Email">
+                <input id="sso_login_form_account" name="username" type="text" placeholder="User Name" autocorrect="off" autocapitalize="off" value="@ViewBag.UserName">
             </div>
             <div id="line-password" class="line">
                 <input id="sso_login_form_password" name="password" type="password" placeholder="Password" value="@ViewBag.Password">
@@ -15,18 +20,7 @@
             <div id="line-btn" class="line btnLine">
                 <input id="btn btn-primary confirm-btn" type="submit" value="Login" class="btn">
             </div>
-            <div class="divider">
-                <span>Or</span>
-            </div>
-            <div id="line-btn" class="line btnLine">
-                <button id="sso_login_link_register" name="register" type="button" class="btn black"><a href="/Home/Register">Register</a></button>
-            </div>
         </form>
-        @*<div class="linkLine">
-                <a id="sso_login_link_forget_password" href="javascript:;" class="sec">Quên mật khẩu?</a>
-            </div>*@
     </div>
 </div>
-
 <link rel="stylesheet" href="../css/login.css">
-

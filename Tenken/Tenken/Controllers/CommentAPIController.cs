@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
@@ -14,7 +15,7 @@ namespace Tenken.Controllers
 
         [HttpGet]
         [Route("CommentAPI/getComment")]
-        public IList<Comment> GetComment(int productID)
+        public static IList<Comment> GetComment(int productID)
         {
             return CommentProvider.getComment(dbConnection,productID);
         }
@@ -27,11 +28,18 @@ namespace Tenken.Controllers
         }
 
         [HttpPost]
-        [HttpPut]
         [Route("CommentAPI/commentMerge")]
-        public HttpResult CommentMerge(Comment comment)
+        public object CommentMerge(string content, int productID,int userID,int rating, int reply)
         {
-            return CommentProvider.commentMerge(dbConnection,comment);
+            Comment comment = new Comment()
+            {
+                ProductID = productID,
+                UserID = userID,
+                Content = content,
+                Rating = rating,
+                Reply = reply
+            };
+            return JsonConvert.SerializeObject(CommentProvider.commentMerge(dbConnection,comment));
         }
     }
 }

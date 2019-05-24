@@ -57,7 +57,7 @@
                             </div>
                             <div class="one-eight text-center">
                                 <div class="display-tc">
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="@ViewBag.Cart.CartItem[i].Quantity" min="1" max="100">
+                                    <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="@ViewBag.Cart.CartItem[i].Quantity" min="1" max="100" disabled>
                                 </div>
                             </div>
                             <div class="one-eight text-center">
@@ -67,7 +67,7 @@
                             </div>
                             <div class="one-eight text-center">
                                 <div class="display-tc">
-                                    <a href="#" class="closed"></a>
+                                    <button class="closed" onclick="removeCartItem(@ViewBag.Cart.CartItem[i].ProductInfoID,@HttpContext.Current.Session["CartID"])"></button>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                         <p><span><strong>Total:</strong></span> <span>@ViewBag.Cart.TotalPrice VND</span></p>
                                     </div>
                                     <div class="grand-total">
-                                        <a href="" class="btn btn-primary">Order</a>
+                                        <a href="/Cart/Order?cartID=@HttpContext.Current.Session["cartID"].ToString()" class="btn btn-primary">Order</a>
                                     </div>
                                 </div>
                             </div>

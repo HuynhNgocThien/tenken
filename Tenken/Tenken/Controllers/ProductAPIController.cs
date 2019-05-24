@@ -61,5 +61,12 @@ namespace Tenken.Controllers
         {
             return ProductProvider.productMerge(dbConnection,product);
         }
+
+        [HttpPost]
+        [Route("ProductAPI/productDelete")]
+        public object ProductDelete(int productID)
+        {
+            return JsonConvert.SerializeObject(ProductProvider.productDelete(dbConnection, productID));
+        }
     }
 }

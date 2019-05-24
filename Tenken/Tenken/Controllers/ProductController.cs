@@ -8,6 +8,7 @@ namespace Tenken.Controllers
         public ActionResult ProductDetail(int productID)
         {
             ViewBag.Product = ProductAPIController.GetProductByID(productID);
+            ViewBag.Comment = CommentAPIController.GetComment(ViewBag.Product.ProductID);
             ViewBag.QuantityBuy = 1;
             return View();
         }

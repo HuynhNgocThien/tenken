@@ -70,5 +70,34 @@ namespace TenkenWeb.Providers
             connect.Close();
             return result;
         }
+
+        public static HttpResult CategoryDelete(SqlConnection connect, int categoryID)
+        {
+            HttpResult result = new HttpResult();
+            try
+            {
+                string sql = "[tk].[category_delete]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@categoryID", categoryID);
+                cmd.Parameters.Add("@categoryIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                connect.Open();
+                cmd.ExecuteNonQuery();
+                result.ID = (int)cmd.Parameters["@categoryIdOut"].Value;
+                result.Message = cmd.Parameters["@resultOut"].Value.ToString();
+                result.Result = result.ID > 0 ? true : false;
+            }
+            catch (Exception e)
+            {
+                result.ID = -1;
+                result.Message = TkConstant.UnexpectedError;
+                result.Result = false;
+                connect.Close();
+                return result;
+            }
+            connect.Close();
+            return result;
+        }
     }
 }

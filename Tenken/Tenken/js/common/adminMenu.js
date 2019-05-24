@@ -1,24 +1,26 @@
-﻿confirmResetPassword = function (userID, userName) {
+﻿confirmResetPassword = function (userID) {
     if (confirm("Reset password will change password of this user to default. Are you sure?")) {
-        var requestMenu = new XMLHttpRequest()
-        requestMenu.open('POST', '/UserAPI/ResetPassword', true)
-        requestMenu.onload = function () {
+        var request = new XMLHttpRequest()
+        request.open('POST', '/UserAPI/ResetPassword', true)
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.onload = function () {
             var data = JSON.parse(this.response)
             // Begin accessing JSON data here
-            if (requestMenu.status >= 200 && requestMenu.status < 400) {
+            if (request.status >= 200 && request.status < 400) {
                 if (data == true) {
-                    arlet("Success reset password for user: "+ userName)
+                    confirm("Success reset password!")
                 } else {
-                    arlet("Something wrong, please try again")
+                    confirm("Something wrong, please try again")
                 }
             } else {
-                arlet("Something wrong, please try again")
+                confirm("Something wrong, please try again")
             }
         }
         var params = "userID=" + userID;
-        requestMenu.send(params)
+        request.send(params)
     }
 }
+
 
 var modal = document.getElementById("myModal");
 
@@ -34,8 +36,10 @@ var showdescription = function () {
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
+if (span !== undefined) {
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -44,3 +48,50 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
+
+
+let arletRemoveProduct = function (productID) {
+    if (confirm("Delete Product! Are you sure?")) {
+        var request = new XMLHttpRequest()
+        request.open('POST', '/ProductAPI/productDelete', true)
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            // Begin accessing JSON data here
+            if (request.status >= 200 && request.status < 400) {
+                if (data.Result == true) {
+                    window.location.href = '/Admin/Menu?TypeMenu=Product'
+                } else {
+                    confirm("Something wrong, please try again")
+                }
+            } else {
+                confirm("Something wrong, please try again")
+            }
+        }
+        var params = "productID=" + productID;
+        request.send(params)
+    }
+};
+
+let arletRemoveCategory = function (categoryID) {
+    if (confirm("Delete Category! Are you sure?")) {
+        var request = new XMLHttpRequest()
+        request.open('POST', '/CategoryAPI/categoryDelete', true)
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            // Begin accessing JSON data here
+            if (request.status >= 200 && request.status < 400) {
+                if (data.Result == true) {
+                    window.location.href = '/Admin/Menu?TypeMenu=Category'
+                } else {
+                    confirm("Something wrong, please try again")
+                }
+            } else {
+                confirm("Something wrong, please try again")
+            }
+        }
+        var params = "categoryID=" + categoryID;
+        request.send(params)
+    }
+};

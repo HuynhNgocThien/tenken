@@ -20,19 +20,19 @@ let getCartValue = function (cartID) {
 }
 getCartValue();
 
-let updateCart = function (productId, cartID) {
+let updateCart = function (productId, cartID, quantity) {
     if (cartID === 0) {
         confirm("Please login first")
     }
     else {
         // Add cart
-        addToCart(productId, cartID);
+        addToCart(productId, cartID, quantity);
         // Get cart value
         getCartValue(cartID);
     }
 }
 
-let addToCart = function (productID, cartID) {
+let addToCart = function (productID, cartID, quantity) {
     if (cartID !== null && cartID != undefined) {
         var request = new XMLHttpRequest()
         request.open('POST', '/CartAPI/AddCart', true)
@@ -42,7 +42,29 @@ let addToCart = function (productID, cartID) {
             var data = JSON.parse(this.response)
             console.log(data);
         }
-        var params = 'ProductID=' + productID + '&Quantity=1&CartID=' + cartID;
+        if (quantity === undefined || quantity === null) {
+            quantity = 1;
+        }
+        var params = 'ProductID=' + productID + '&Quantity=' + quantity + '&CartID=' + cartID;
+        request.send(params);
+    }
+}
+
+let removeCartItem = function (productInfoID, cartID) {
+    if (cartID !== null && cartID != undefined) {
+        var request = new XMLHttpRequest()
+        request.open('POST', '/CartAPI/Remove', true)
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            if (request.status >= 200 && request.status < 400) {
+                window.location.href = '/Cart/Cart?cartID=' + cartID
+            } else {
+                arlet('Some thing wrong!');
+            }
+        }
+        var params = 'ProductInfoID=' + productInfoID + '&CartID=' + cartID;
         request.send(params);
     }
 }

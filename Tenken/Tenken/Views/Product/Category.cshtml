@@ -34,7 +34,15 @@
                         <span class="price">@ViewBag.ProductList[i].Price VND</span>
                     </div>
                     <div class="add-to-cart">
-                        <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID,@HttpContext.Current.Session["CartID"])">Add To Cart</button>
+                        @if (@HttpContext.Current.Session["CartID"] == null)
+                        {
+                            <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID,0)">Add To Cart</button>
+
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary btn-add-cart text-center" type="submit" onclick="updateCart(@ViewBag.ProductList[i].ProductID,@HttpContext.Current.Session["CartID"])">Add To Cart</button>
+                        }
                     </div>
                 </div>
             </div>

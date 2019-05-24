@@ -144,6 +144,7 @@
     </Compile>
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -234,7 +235,6 @@
     <Content Include="js\common\adminMenu.js" />
     <Content Include="js\common\globalFunc.js" />
     <Content Include="js\google_map.js" />
-    <Content Include="js\home\login.js" />
     <Content Include="js\home\register.js" />
     <Content Include="js\jquery-3.2.1.min.js" />
     <Content Include="js\jquery-migrate-3.0.1.min.js" />
@@ -305,6 +305,8 @@
     <Content Include="Views\Admin\UserAdmin.cshtml" />
     <Content Include="Views\Admin\CategoryAdmin.cshtml" />
     <Content Include="Views\Admin\ProductAdmin.cshtml" />
+    <Content Include="Views\Cart\Order.cshtml" />
+    <Content Include="Views\Cart\OrderStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

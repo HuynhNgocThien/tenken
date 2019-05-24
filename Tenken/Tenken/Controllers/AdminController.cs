@@ -41,7 +41,7 @@ namespace Tenken.Controllers
         public ActionResult Login(string username, string password)
         {
             string passwordAdmin = ConfigurationManager.AppSettings.Get("PasswordAdmin");
-            bool result = username == "Admin" && password == passwordAdmin;
+            bool result = username.Equals("Admin", StringComparison.InvariantCultureIgnoreCase) && password == passwordAdmin;
             if (result)
             {
                 Session.Add("isLoginAdmin", true);
@@ -174,15 +174,30 @@ namespace Tenken.Controllers
             ViewBag.CategoryList = CategoryAPIController.getAllCategoryAdmin();
             return View();
         }
+        public void checkFileExist(string path)
+        {
+            // Check if our file exists
+            if (System.IO.File.Exists(path))
+            {
+                // Delete our file
+                System.IO.File.Delete(path);
+            }
+        }
+        public string getExtension(string fileName)
+        {
+            string[] data = fileName.Split('.');
+            return data[data.Length - 1];
+        }
         [HttpPost]
         public ActionResult ProductAdmin(int productID, string productName, string description, int price, int categoryid, HttpPostedFileBase ImageURL)
         {
             if (ImageURL != null && ImageURL.ContentLength > 0)
             {
-                // extract only the filename
-                var fileName = Path.GetFileName(ImageURL.FileName);
+                // create file name mapping with product name
+                var fileName = productName + "." + getExtension(Path.GetFileName(ImageURL.FileName));
                 // store the file inside ~/App_Data/uploads folder
                 var path = Path.Combine(Server.MapPath("~/images"), fileName);
+                checkFileExist(path);
                 ImageURL.SaveAs(path);
             }
             ViewBag.Product = new Product()
@@ -192,7 +207,7 @@ namespace Tenken.Controllers
                 Description = description,
                 Price = price,
                 CategoryID = categoryid,
-                ImageName = ImageURL.FileName
+                ImageName = productName + "." + getExtension(Path.GetFileName(ImageURL.FileName))
             };
             HttpResult result = ProductAPIController.ProductMerge(ViewBag.Product);
             if (result.Result)

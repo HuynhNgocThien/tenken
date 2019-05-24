@@ -10,16 +10,6 @@ link.setAttribute('href', '/home/index')
 link.text = 'Home'
 listMenu.appendChild(link)
 
-//var islogin = '<%=Session["UserName"] %>' === null ? false : true;
-
-
-//var a = document.getElementById('cartValue')
-//var cartID = '<%=Session["CartID"] %>';
-//if (islogin) {
-//    a.setAttribute('href', '/Cart/Cart?cartID=' + cartID);
-//} else {
-//    a.setAttribute('href', '/Home/Login');
-//}
 
 var requestMenu = new XMLHttpRequest()
 requestMenu.open('GET', '/CategoryAPI/getAllCategory', true)

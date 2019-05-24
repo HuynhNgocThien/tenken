@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Order";
+}
+
+@if (ViewBag.Success != null && ViewBag.Success == true)
+{
+    <script>
+        if (confirm("Success order!")) {
+            window.location.href = "/Cart/OrderStatus?orderID=@ViewBag.OrderID"
+        } else {
+            window.location.href = "/Cart/OrderStatus?orderID=@ViewBag.OrderID"
+
+        }
+    </script>
+}
+
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row row-pb-lg">
+            <div class="col-md-10 offset-md-1">
+                <div class="process-wrap">
+                    <div class="process text-center">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center active">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content" style="top: 0px;">
+            <h2 class="title">Order Information</h2>
+            <form id="login-form" class="loginForm" method="post">
+                @if (ViewBag.Error)
+                {
+                    <p class="arlet">Email or Password is invalid</p>
+                }
+                <input style="display:none" name="cartID" value="@ViewBag.CartID" />
+                <div id="line-account" class="line">
+                    <input id="sso_login_form_account" name="address" type="text" placeholder="Address" autocorrect="off" autocapitalize="off" value="@ViewBag.AddressName">
+                </div>
+                <div id="line-account" class="line">
+                    <input id="sso_login_form_account" name="phoneNumber" type="text" placeholder="Phone Number" autocorrect="off" autocapitalize="off" value="@ViewBag.AddressName" maxlength="10">
+                </div>
+                <div id="line-btn" class="line btnLine">
+                    <input id="btn btn-primary confirm-btn" type="submit" value="Confirm Order" class="btn">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="../css/login.css">
+
+
+

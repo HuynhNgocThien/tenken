@@ -48,6 +48,70 @@ namespace TenkenWeb.Providers
             return result;
         }
 
+        public static Order getOrder(SqlConnection connect, int orderID)
+        {
+            Order result = new Order()
+            {
+                Address = new Address()
+            };
+            try
+            {
+                string sql = "[tk].[get_order]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@orderID", orderID);
+                connect.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.OrderID = int.Parse(reader["OrderID"].ToString());
+                    result.DeliveryStatus = reader["DeliveryStatus"].ToString();
+                    result.PaymentStatus = reader["PaymentStatus"].ToString();
+                    result.Address.ID = int.Parse(reader["AddressID"].ToString());
+                    result.Address.AddressName = reader["Address"].ToString();
+                    result.Address.PhoneNumber = reader["PhoneNumber"].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return null;
+            }
+            connect.Close();
+            return result;
+        }
+        public static List<OrderItem> getOrderItem(SqlConnection connect, int orderID)
+        {
+            List<OrderItem> result = new List<OrderItem>();
+            try
+            {
+
+                string sql = "[tk].[get_order_item]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@orderID", orderID);
+                connect.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    OrderItem item = new OrderItem();
+                    item.ProductID = int.Parse(reader["ProductID"].ToString());
+                    item.ProductName = reader["ProductName"].ToString();
+                    item.Price = double.Parse(reader["Price"].ToString());
+                    item.Quantity = int.Parse(reader["Quantity"].ToString());
+                    item.PricePerProduct = double.Parse(reader["PricePerProduct"].ToString());
+                    result.Add(item);
+                }
+            }
+            catch (Exception e)
+            {
+                connect.Close();
+                return null;
+            }
+            connect.Close();
+            return result;
+        }
+
         public static HttpResult addCart(SqlConnection connect, int ProductID, int Quantity, int CartID)
         {
             HttpResult result = new HttpResult();
@@ -94,11 +158,13 @@ namespace TenkenWeb.Providers
                 cmd.Parameters.AddWithValue("@phoneNumber", order.Address.PhoneNumber);
                 cmd.Parameters.AddWithValue("@deliveryStatus", "Waiting");
                 cmd.Parameters.AddWithValue("@paymentStatus", "Waiting");
-                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar,200).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@orderIdOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
                 connect.Open();
                 cmd.ExecuteNonQuery();
                 result.Message = cmd.Parameters["@resultOut"].Value.ToString();
                 result.Result = true;
+                result.ID = (int)cmd.Parameters["@orderIdOut"].Value;
             }
             catch (Exception e)
             {
@@ -131,6 +197,35 @@ namespace TenkenWeb.Providers
             {
                 connect.Close();
                 return 0;
+            }
+            connect.Close();
+            return result;
+        }
+        public static HttpResult removeCartItem(SqlConnection connect, int ProductInfoID, int CartID)
+        {
+            HttpResult result = new HttpResult();
+            try
+            {
+                string sql = "[tk].[cart_item_delete]";
+                SqlCommand cmd = new SqlCommand(sql, connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@productInfoID", ProductInfoID);
+                cmd.Parameters.AddWithValue("@cartID", CartID);
+                cmd.Parameters.Add("@cartItemIDOut", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@resultOut", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output;
+                connect.Open();
+                cmd.ExecuteNonQuery();
+                result.ID = (int)cmd.Parameters["@cartItemIDOut"].Value;
+                result.Message = cmd.Parameters["@resultOut"].Value.ToString();
+                result.Result = result.ID > 0 ? true : false;
+            }
+            catch (Exception e)
+            {
+                result.ID = 1;
+                result.Message = TkConstant.UnexpectedError;
+                result.Result = false;
+                connect.Close();
+                return result;
             }
             connect.Close();
             return result;

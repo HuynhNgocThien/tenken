@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Tenken.Models;
@@ -35,9 +36,30 @@ namespace Tenken.Controllers
 
         [HttpPost]
         [Route("CartAPI/buyCart")]
-        public HttpResult BuyCart(int cartID, Order order)
+        public static HttpResult BuyCart(int cartID, Order order)
         {
             return CartProvider.buy(dbConnection, cartID, order);
+        }
+
+        [HttpGet]
+        [Route("CartAPI/getOrder")]
+        public static Order GetOrder(int orderID)
+        {
+            return CartProvider.getOrder(dbConnection, orderID);
+        }
+
+        [HttpGet]
+        [Route("CartAPI/getOrderItem")]
+        public static List<OrderItem> GetOrderItem(int orderID)
+        {
+            return CartProvider.getOrderItem(dbConnection, orderID);
+        }
+
+        [HttpPost]
+        [Route("CartAPI/Remove")]
+        public object Remove(int ProductInfoID, int CartID)
+        {
+            return JsonConvert.SerializeObject(CartProvider.removeCartItem(dbConnection, ProductInfoID, CartID));
         }
     }
 }

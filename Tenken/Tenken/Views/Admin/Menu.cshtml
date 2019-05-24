@@ -54,7 +54,7 @@
                                 <td class="id-column">@ViewBag.DataList[i].CartID</td>
                                 <td>
                                     <a class="btn btn-primary text-center tool-button" href="/Admin/UserAdmin?userID=@ViewBag.DataList[i].ID"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-primary text-center" onclick="confirmResetPassword(@ViewBag.DataList[i].ID,@ViewBag.DataList[i].UserName)"><i class="glyphicon glyphicon-refresh"></i></button>
+                                    <button class="btn btn-primary text-center" onclick="confirmResetPassword(@ViewBag.DataList[i].ID)"><i class="glyphicon glyphicon-refresh"></i></button>
                                 </td>
                             </tr>
                         }
@@ -147,3 +147,6 @@
 };
 
 <script src="../js/common/adminMenu.js"></script>
+<script>
+
+</script>

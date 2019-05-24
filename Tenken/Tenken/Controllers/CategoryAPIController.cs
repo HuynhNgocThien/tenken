@@ -38,5 +38,12 @@ namespace Tenken.Controllers
         {
             return CategoryProvider.getCategory(dbConnection, "", 0);
         }
+
+        [HttpPost]
+        [Route("CategoryAPI/categoryDelete")]
+        public object CategoryDelete(int categoryID)
+        {
+            return JsonConvert.SerializeObject(CategoryProvider.CategoryDelete(dbConnection,categoryID));
+        }
     }
 }

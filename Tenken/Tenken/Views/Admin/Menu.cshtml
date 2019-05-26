@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
-                <h2>@ViewBag.Type</h2>
+                <h2>(string)@ViewBag.Type</h2>
             </div>
         </div>
         <div class="row">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <table id="customers">
-            @switch (ViewBag.Type)
+            @switch ((string)ViewBag.Type)
             {
                 case "User":
                     <tr>

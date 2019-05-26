@@ -31,26 +31,26 @@
                     {
                         <p class="arlet">@ViewBag.Error</p>
                     }
-                    <div style="        display: none">
-                        <input id="sso_login_form_account" name="productID" type="text" value="@ViewBag.Product.ProductID">
+                    <div style="display: none">
+                        <input class="form-control" id="sso_login_form_account" name="productID" type="text" value="@ViewBag.Product.ProductID">
                     </div>
-                    <div id="line-account" class="line">
+                    <div id="line-account" class="line form-group">
                         <p>Product Name</p>
-                        <input id="sso_login_form_account" name="productName" type="text" placeholder="Product Name" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.ProductName">
+                        <input class="form-control" id="sso_login_form_account" name="productName" type="text" placeholder="Product Name" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.ProductName">
                     </div>
-                    <div id="line-account" class="line">
+                    <div id="line-account" class="line form-group">
                         <p>Description</p>
-                        <textarea class="text-area-description" id="sso_login_form_account" name="description" placeholder="Description" rows="5">@ViewBag.Product.Description</textarea>
+                        <textarea class="text-area-description form-control" id="sso_login_form_account" name="description" placeholder="Description" rows="5">@ViewBag.Product.Description</textarea>
                     </div>
-                    <div id="line-account" class="line">
+                    <div id="line-account" class="line form-group">
                         <p>Price</p>
                         <div class="row" style="margin-left:0px;">
-                            <input id="sso_login_form_account" name="price" type="number" placeholder="Price" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.Price"> <p style="padding-left:10px;">VND</p>
+                            <input class="form-control" id="sso_login_form_account" name="price" type="number" placeholder="Price" autocorrect="off" autocapitalize="off" value="@ViewBag.Product.Price"> <p style="padding-left:10px;">VND</p>
                         </div>
                     </div>
-                    <div id="line-account" class="line">
+                    <div id="line-account" class="line form-group">
                         <p>Category</p>
-                        <select name="categoryid">
+                        <select class="form-control" name="categoryid">
                             @if (ViewBag.Product.CategoryID == 0)
                             {
                                 <option value="0">Select</option>
@@ -69,9 +69,9 @@
                             }
                         </select>
                     </div>
-                    <div id="line-account" class="line">
+                    <div id="line-account" class="line form-group">
                         <p>Product Image</p>
-                        <input class="select-file" id="file-select" name="ImageURL" type="file" placeholder="Image" accept=".gif,.jpg,.jpeg,.png " value="@ViewBag.ImageURL">
+                        <input class="select-file form-control" id="file-select" name="ImageURL" type="file" placeholder="Image" accept=".gif,.jpg,.jpeg,.png " value="@ViewBag.ImageURL">
                         <img id="image-display" style="width:160px;margin-top:10px;" />
                     </div>
                     <div id="line-btn" class="line btnLine">
